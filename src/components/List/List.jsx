@@ -5,10 +5,11 @@ import PlaceDetails from '../PlaceDetails/PlaceDetails';
 
 import useStyles from './styles';
 
-const List = ( { places, childClicked, isLoading } ) => {
+const List = ( { places, childClicked, isLoading, setRating } ) => {
   const classes = useStyles();
   const [type, setType] = useState('restaurants');
-  const [rating, setRating] = useState('');
+  const [rating, setLocalRating] = useState('');
+  
   
   const [elRefs, setElRefs] = useState([]);
 
@@ -23,6 +24,9 @@ const List = ( { places, childClicked, isLoading } ) => {
     }
   }, [childClicked, elRefs]);
   
+  const handleRatingChange = (e) => {
+    setRating(e.target.value); 
+  };
 
   return(
     <div className={classes.container}>
@@ -44,7 +48,7 @@ const List = ( { places, childClicked, isLoading } ) => {
       </FormControl>
       <FormControl className={classes.formControl}>
         <InputLabel>Rating</InputLabel>
-        <Select value={rating} onChange={(e) => setRating(e.target.value)}>
+        <Select value={rating} onChange={handleRatingChange}>
         <MenuItem value={0}>All</MenuItem>
           <MenuItem value={3}>Above 3</MenuItem>
           <MenuItem value={4}>Above 4</MenuItem>
