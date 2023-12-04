@@ -16,7 +16,7 @@ const Header = () => {
         </Typography>
         <Box display="flex">
           <Typography variant='h6' className={classes.title}>
-            Enter Area
+            Enter Area   
           </Typography>
           
           
