@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { CssBaseline, Grid } from '@material-ui/core';
 
-import { getPlacesData } from './api';
+import { getPlacesData, addRestaurantData } from './api';
 import Header from './components/Header/Header';
 import List from './components/List/List';
 import Map from './components/Map/Map';
+
 
 
 const App = () => {
@@ -48,8 +49,35 @@ const App = () => {
     }
   }, [coordinates, bounds]);
 
+  useEffect(() => {
+    if (bounds.sw && bounds.ne) {
+      setIsLoading(true);
+      getPlacesData(bounds.sw, bounds.ne)
+        .then((data) => {
+          setPlaces(data);
+          setFilteredPlaces([]);
+          setIsLoading(false);
+          
+          // Send each restaurant data to your database
+          data.forEach(restaurant => {
+            addRestaurantData({
+              name: restaurant.name,
+              rating: restaurant.rating,
+              price_level: restaurant.price_level,
+              ranking: restaurant.ranking,
+            });
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching data: ', error);
+        });
+    }
+  }, [coordinates, bounds]);
+  
+
   return (
     <>
+      
       <CssBaseline />
       <Header setCoordinates={setCoordinates} />
       <Grid container spacing={3} style={{ width: '100%' }}>

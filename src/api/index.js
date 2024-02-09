@@ -28,6 +28,14 @@ export const getPlacesData = async (sw, ne) => {
   }
 }
 
+export const addRestaurantData = async (restaurantData) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/restaurants', restaurantData);
+    return response.data;
+  } catch (error) {
+    console.error('Error while adding restaurant data: ', error);
+  }
+};
 
 export const getWeatherData = async (query) => {
   try {
